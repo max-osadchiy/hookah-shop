@@ -1,0 +1,22 @@
+.filter {
+  width: 20%;
+  @media screen and (max-width: 787px) {
+    width: 100%;
+  }
+  & > h3 {
+    background-color: #333333;
+    color: white;
+    text-align: left;
+    padding: 1rem;
+  }
+  .filter-item {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    & > p {
+      text-align: left;
+    }
+  }
+}

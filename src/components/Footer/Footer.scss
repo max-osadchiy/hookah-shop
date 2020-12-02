@@ -1,0 +1,37 @@
+.footer {
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem 8rem;
+  padding-bottom: 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.10);
+  @media screen and (max-width: 787px) {
+    padding: 2rem 2rem;
+    padding-bottom: 0;
+    flex-direction: column;
+    img {
+      display: none;
+    }
+  }
+  p {
+    font-family: Roboto;
+    font-weight: bold;
+  }
+  & > div {
+    display: flex;
+    flex-direction: column;
+    & > div {
+      display: flex;
+      flex-direction: row;
+    }
+    & > h1 {
+      margin: 0;
+    }
+  }
+  .networks {
+    display: flex;
+    flex-direction: row;
+    & > p {
+      margin-right: 1rem;
+    }
+  }
+}

@@ -1,0 +1,23 @@
+.information {
+  margin: 0 8rem;
+  margin-top: 5rem;
+  padding-bottom: 4rem;
+  border-bottom: 2px solid #333333;
+  margin-bottom: 3rem;
+  text-align: center;
+  @media screen and (max-width: 787px) {
+    margin: 0 2rem;
+    margin-top: 5rem;
+  }
+  & > img {
+    margin-bottom: 2rem;
+  }
+  & > p {
+    margin: 0 auto;
+    width: 28rem;
+    color: #5E5E5E;
+    @media screen and (max-width: 787px) {
+      width: auto;
+    }
+  }
+}
