@@ -8,6 +8,10 @@
   & > div {
     display: flex;
     align-items: center;
+    @media screen and (max-width: 787px) {
+      flex-direction: column;
+      text-align: center;
+    }
   }
   img {
     width: 15rem;

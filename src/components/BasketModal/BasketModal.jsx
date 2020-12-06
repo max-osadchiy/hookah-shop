@@ -12,6 +12,7 @@ const BasketModal = ({ open, setOpen }) => {
   basket = items.filter(i => i.id === +getItems);
   console.log(basket);
   console.log(JSON.parse(getItemsContext.items));
+  const isMobile = window.innerWidth < 787;
   return (
     <Modal open={open} onClose={() => setOpen(false)} center>
       <div className="modal-bask">
@@ -22,7 +23,7 @@ const BasketModal = ({ open, setOpen }) => {
             <div>
               <h3>{item.title}</h3>
               <h4>{item.cost}</h4>
-              <p>{item.description}</p>
+              {!isMobile ? <p>{item.description}</p> : null}
             </div>
           </div>
         ))}
