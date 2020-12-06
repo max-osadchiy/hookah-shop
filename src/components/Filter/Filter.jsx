@@ -1,19 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { filters } from '../../static/Content';
 import './Filter.scss';
-import arrow_down from '../../static/img/ArrowDown.svg';
 
-const Filter = () => (
-  <div className="filter">
-    <h3>Категории товаров</h3>
-    {filters.map((filter, id) => (
-      <div className="filter-item" key={id}>
-        <p>{filter.title}</p>
-        <img src={arrow_down} alt=""/>
-      </div>
-      )
-    )}
-  </div>
-);
+const Filter = ({ filter, setFilter }) => {
+  const [open, setOpen] = useState(0);
+  const onChangeFilter = (id, title) => {
+    setOpen(id);
+    setFilter(title);
+  };
+
+  return (
+    <div className="filter">
+      <h3>Категории товаров</h3>
+      {filters.map((filter, id) => (
+        <div key={id}>
+          <div
+            onClick={() => onChangeFilter(id, filter.title)}
+            className="filter-item"
+          >
+            <p className={open === id ? 'text-focus' : ''}>{filter.title}</p>
+          </div>
+        </div>
+        )
+      )}
+    </div>
+  );
+}
 
 export default Filter;
