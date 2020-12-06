@@ -13,7 +13,7 @@ const Footer = () => (
         <div>
           <div style={{ marginRight: '2rem' }}>
             <p>16A Grecheskaya street</p>
-            <p>Odessa,Ukraine</p>
+            <p>Odessa, Ukraine</p>
           </div>
           <div>
             <p>hookahshop@gmail.com</p>

@@ -14,9 +14,16 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 0 1rem;
+    padding: 0 2%;
+    width: 96%;
     & > p {
       text-align: left;
+      letter-spacing: 1px;
+      cursor: pointer;
     }
+  }
+  .text-focus {
+    font-weight: 600;
+    color: black;
   }
 }

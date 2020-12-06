@@ -1,0 +1,53 @@
+.item-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: 75vh;
+  .back-block {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    margin: 0 9rem;
+    margin-bottom: 2rem;
+    width: 6rem;
+    cursor: pointer;
+  }
+  a {
+    text-decoration: none;
+    color: black;
+  }
+  & > div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    h3 {
+      color: #828282;
+    }
+    & > div:last-child {
+      width: 30rem;
+    }
+    & > div:nth-child(1) > img {
+      width: 20rem;
+      margin-right: 5rem;
+    }
+    button {
+      background: transparent;
+      color: black;
+      padding: .8rem 2.6rem;
+      font-size: .8em;
+      text-transform: uppercase;
+      border: 1px solid #333333;
+      border-radius: 3px;
+      margin: .8rem 0;
+      font-weight: bold;
+      transition: 1s;
+      cursor: pointer;
+      &:hover {
+        background: #333333;
+        border: 1px solid #333333;
+        color: white;
+      }
+    }
+  }
+}
