@@ -1,27 +1,10 @@
-.modal-bask {
+.modal-thanks-bask {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding-bottom: 1.6rem;
-  & > div > div {
-    display: flex;
-    align-items: center;
-    @media screen and (max-width: 787px) {
-      flex-direction: column;
-      text-align: center;
-    }
-  }
-  img {
-    width: 15rem;
-  }
-  h2 {
-    text-align: center;
-  }
-  h4 {
-    font-weight: bold;
-    color: #5E5E5E;
-  }
+  padding: 0 2rem;
+  margin-bottom: 2rem;
   button {
     background: transparent;
     color: black;
@@ -34,16 +17,11 @@
     font-weight: bold;
     transition: 1s;
     cursor: pointer;
+    width: 12rem;
     &:hover {
       background: #333333;
       border: 1px solid #333333;
       color: white;
     }
   }
-}
-
-.modal-bask-container {
-  overflow-y: scroll;
-  display: flex;
-  flex-direction: column;
 }

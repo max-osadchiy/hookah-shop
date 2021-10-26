@@ -1,44 +1,96 @@
-import React, { useContext, useState } from 'react';
+import { observer } from "mobx-react";
+import React, { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Filter from '../../../components/Filter/Filter';
-import { BasketContext } from '../../../contexts/BasketContext';
+import Filter from "../../../components/Filter/Filter";
+import {
+  sortItems,
+  sortItemsHight,
+  sortItemsSmaller,
+} from "../../../components/sortItems";
 import { items } from '../../../static/Content';
-import './Items.scss';
+import { useStore, withStore } from "../../../store/storeHOC";
+import FilterPrice from "./FilterPrice";
+import "./Items.scss";
 
 const Items = () => {
-  const sendToBasket = useContext(BasketContext);
-  const [filter, setFilter] = useState('Все');
-  const AllFilter = () => {
-    if(filter === 'Все') {
-      return items;
+  const { mainStore } = useStore();
+  const [validIDState, setValidIDState] = useState();
+  const [filter, setFilter] = useState("Все");
+  const [basketBtn, setBasketBtn] = useState("В корзину");
+
+  const sortItems = (array, name) => {
+    if (mainStore.sortItems === "От большой к меньшей цене") {
+      return sortItemsSmaller(array.slice(), name);
+    } else if (mainStore.sortItems === "От меньшей к большой цене") {
+      return sortItemsHight(array.slice(), name);
     } else {
-      return items.filter(t => t.type === filter);
+      return array;
     }
-  }
+  };
+
+  useEffect(() => {
+    mainStore.getInfoItems();
+  }, [mainStore]);
+  const allFilter =
+    filter === "Все"
+      ? sortItems(items, "price")
+      : sortItems(
+          items.filter(t => t.productType === filter),
+          "price"
+        );
+  
+  const sendBtn = (id, validId) => {
+    setValidIDState(validId);
+    mainStore.setBasketItems(id);
+    setBasketBtn("Добавлено");
+    setInterval(() => {
+      setBasketBtn("В корзину");
+    }, 3000);
+  };
   const isMobile = window.innerWidth < 787;
   return (
     <div className="items">
-      <Filter filter={filter} setFilter={setFilter} />
-      <div className={AllFilter().length ? "items-block" : ''} style={{ width: AllFilter().length ? '' : `${isMobile ? '100%' : '80%'}` }}>
-        {AllFilter().length ? null : <p style={{ textAlign: 'center' }}>Нет товара</p>}
-        {AllFilter().map((item) => (
-          <div key={item.id} className="item-block">
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <Filter filter={filter} setFilter={setFilter} />
+        <FilterPrice />
+      </div>
+      <div
+        className={allFilter.length ? "items-block" : ""}
+        style={{
+          width: allFilter.length ? "" : `${isMobile ? "100%" : "80%"}`,
+        }}
+      >
+        {!allFilter.length && (
+          <p style={{ textAlign: "center" }}>Нет товара</p>
+        )}
+        {allFilter.map((item, id) => (
+          <div key={id} className="item-block">
             <Link to={`/item/${item.id}`}>
-              <div>
-                <img src={item.img} alt="img"/>
+              <div
+                style={{
+                  height: "15rem",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                {/* <img src={`data:image/jpeg;base64,${item.image}`} alt="img" /> */}
+                <img src={item.image} alt="img" />
               </div>
               <div>
                 <h4>{item.title}</h4>
-                <p>{item.cost}</p>
+                <p>{item.price}</p>
+                {/* <p>₴{item.price.toFixed(2)}</p> */}
               </div>
             </Link>
-            <button onClick={() => sendToBasket.setItems(item.id)}>В корзину</button>
+            <button onClick={() => sendBtn(item.id, id)}>
+              {validIDState === id ? basketBtn : "В корзину"}
+            </button>
           </div>
-          )
-        )}
+        ))}
       </div>
     </div>
   );
 };
 
-export default Items;
+export default observer(Items);

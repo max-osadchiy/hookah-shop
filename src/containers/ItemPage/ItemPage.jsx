@@ -1,17 +1,31 @@
-import React, { useContext } from 'react';
+import { observer } from 'mobx-react';
+import React, { useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { BasketContext } from '../../contexts/BasketContext';
-import { items } from '../../static/Content';
 import back_img from '../../static/img/back.svg';
+import { useStore } from '../../store/storeHOC';
 import './ItemPage.scss';
+import ReactImageZoom from 'react-image-zoom';
+import { items } from '../../static/Content';
 
 const ItemPage = () => {
+  const {mainStore} = useStore();
+  useEffect(() => {
+    mainStore.getInfoItems();
+  }, [mainStore])
+  const [basketBtn, setBasketBtn] = useState('В корзину');
   const { id } = useParams();
   const item = items.find(i => i.id === +id);
+  // const item = mainStore.items.find(i => i.id === +id);
 
   const history = useHistory();
 
-  const sendToBasket = useContext(BasketContext);
+  const sendBtn = (id) => {
+    mainStore.setBasketItems(id);
+    setBasketBtn('Добавлено');
+    setInterval(() => {
+      setBasketBtn('В корзину');
+    }, 3000);
+  }
 
   return (
     <div className="item-page">
@@ -19,19 +33,23 @@ const ItemPage = () => {
         <img src={back_img} alt="back"/>
         <h4>Назад</h4>
       </div>
-      <div>
+      {item && (
         <div>
-          <img src={item.img} alt="img"/>
+          <div className="item-img" style={{height: 250, justifyContent: 'center', alignItems: 'center'}}>
+            <ReactImageZoom zoomWidth={500} img={item.image} />
+            {/* <ReactImageZoom width={400} height={250} zoomWidth={500} img={`data:image/jpeg;base64,${item.image}`} /> */}
+          </div>
+          <div>
+            <h2>{item.title}</h2>
+            <h3>{item.price}</h3>
+            {/* <h3>₴{item.price.toFixed(2)}</h3> */}
+            <button onClick={() => sendBtn(item.id)}>{basketBtn}</button>
+            <p>{item.description}</p>
+          </div>
         </div>
-        <div>
-          <h2>{item.title}</h2>
-          <h3>{item.cost}</h3>
-          <button onClick={() => sendToBasket.setItems(item.id)}>В корзину</button>
-          <p>{item.description}</p>
-        </div>
-      </div>
+      )}
     </div>
   );
 }
 
-export default ItemPage;
+export default observer(ItemPage);

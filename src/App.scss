@@ -13,6 +13,16 @@ code {
     monospace;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
 p {
   font-family: 'Raleway';
   color: #5E5E5E;
@@ -21,6 +31,8 @@ p {
 
 .react-responsive-modal-modal {
   border-radius: 4px;
+  width: 75%;
+  margin: 10%;
 }
 
 button {
