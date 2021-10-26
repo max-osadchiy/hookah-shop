@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react';
 import { Modal } from 'react-responsive-modal';
-import { BasketContext } from '../../contexts/BasketContext';
 import { items } from '../../static/Content';
 import 'react-responsive-modal/styles.css';
 import './BasketModal.scss';
@@ -10,9 +9,8 @@ import { observer } from 'mobx-react';
 const BasketModal = ({ open, setOpen, setOpenForm }) => {
   const {mainStore} = useStore();
   const [deleteItem, setDeleteItem] = useState(false);
-  // const getItemsContext = useContext(BasketContext);
-  // const getItems = JSON.parse(getItemsContext.items);
-  const basket = mainStore.items.filter(({ id }) => mainStore.basket_items.includes(id));
+  const basket = items.filter(({ id }) => mainStore.basket_items.includes(id));
+  // const basket = mainStore.items.filter(({ id }) => mainStore.basket_items.includes(id));
   console.log(basket);
 
   const isMobile = window.innerWidth < 787;
@@ -39,17 +37,19 @@ const BasketModal = ({ open, setOpen, setOpenForm }) => {
     <Modal open={open} onClose={() => setOpen(false)} center>
       <div className="modal-bask">
         <h2>Корзина</h2>
-        {!basket.length ? <p>Пусто</p> : null}
-        <div className="modal-bask-container" style={{height: !basket.length ? null : '400px'}}>
+        <div className="modal-bask-container" style={{height: '400px'}}>
+          {!basket.length ? <p>Пусто</p> : null}
           {basket.map((item) => (
-            <div key={item.id} style={{ display: deleteItem === true ? 'none' : '' }}>
-              <img src={`data:image/jpeg;base64,${item.image}`} alt="item"/>
+            <div key={item.id} style={{ display: deleteItem === true ? 'none' : '', marginBottom: 50 }}>
+              <img src={item.image} alt="item"/>
+              {/* <img src={`data:image/jpeg;base64,${item.image}`} alt="item"/> */}
               <div>
                 <h3>{item.title}</h3>
-                <h4>₴{item.price.toFixed(2)}</h4>
+                <h4>{item.price}</h4>
+                {/* <h4>₴{item.price.toFixed(2)}</h4> */}
                 {!isMobile ? <p>{item.description.slice(0, 100) + '...'}</p> : null}
+                <button onClick={() => onDelete(item.id)}>Удалить</button>
               </div>
-              <button onClick={() => onDelete(item.id)}>Удалить</button>
             </div>
           ))}
         </div>

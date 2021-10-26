@@ -4,6 +4,8 @@ import { useParams, useHistory } from 'react-router-dom';
 import back_img from '../../static/img/back.svg';
 import { useStore } from '../../store/storeHOC';
 import './ItemPage.scss';
+import ReactImageZoom from 'react-image-zoom';
+import { items } from '../../static/Content';
 
 const ItemPage = () => {
   const {mainStore} = useStore();
@@ -12,7 +14,8 @@ const ItemPage = () => {
   }, [mainStore])
   const [basketBtn, setBasketBtn] = useState('В корзину');
   const { id } = useParams();
-  const item = mainStore.items.find(i => i.id === +id);
+  const item = items.find(i => i.id === +id);
+  // const item = mainStore.items.find(i => i.id === +id);
 
   const history = useHistory();
 
@@ -32,12 +35,14 @@ const ItemPage = () => {
       </div>
       {item && (
         <div>
-          <div>
-            <img src={`data:image/jpeg;base64,${item.image}`} alt="img"/>
+          <div className="item-img" style={{height: 250, justifyContent: 'center', alignItems: 'center'}}>
+            <ReactImageZoom zoomWidth={500} img={item.image} />
+            {/* <ReactImageZoom width={400} height={250} zoomWidth={500} img={`data:image/jpeg;base64,${item.image}`} /> */}
           </div>
           <div>
             <h2>{item.title}</h2>
-            <h3>₴{item.price.toFixed(2)}</h3>
+            <h3>{item.price}</h3>
+            {/* <h3>₴{item.price.toFixed(2)}</h3> */}
             <button onClick={() => sendBtn(item.id)}>{basketBtn}</button>
             <p>{item.description}</p>
           </div>

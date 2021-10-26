@@ -42,16 +42,10 @@ const OrderFormModal = ({ openForm, setOpenForm, setOpen }) => {
       inputs.numPostOffice,
     );
     mainStore.orderItems();
-    // localStorage.removeItem('products');
   }
-  // const disabledForm = () => {
-  //   if () {
-  //       return true;
-  //     }
-  // }
   return (
     <Modal open={openForm} onClose={() => setOpenForm(false)} center>
-    <div className="modal-form-bask">
+    <div className="modal-form-bask" style={{ justifyContent: 'center' }}>
       <h2>Оформление</h2>
       <div>
         <label>

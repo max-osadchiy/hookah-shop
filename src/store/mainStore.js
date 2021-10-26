@@ -21,6 +21,8 @@ export class MainStore {
     customerCity: '',
   }
 
+  sortItems = '';
+
   isSaved = false;
 
   onChangeInput = (Firstname, Lastname, Email, Phone, City, Index, PostOffice) => {
@@ -38,11 +40,15 @@ export class MainStore {
   
   setBasketItems = (id) => {
     this.basket_items.push(id);
-    console.log(this.basket_items.length);
+    console.log(this.basket_items);
   }
 
   changeItems = (array) => {
     this.items = array;
+  }
+
+  changeSortItems = (str) => {
+    this.sortItems = str;
   }
 
   getInfoItems = async () => {
