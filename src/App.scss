@@ -13,14 +13,27 @@ code {
     monospace;
 }
 
-p {
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+p, label {
   font-family: 'Raleway';
   color: #5E5E5E;
   letter-spacing: 1px;
 }
 
 .react-responsive-modal-modal {
+  max-width: 600px !important;
   border-radius: 4px;
+  width: 75%;
+  margin: 10%;
 }
 
 button {

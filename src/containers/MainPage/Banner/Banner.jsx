@@ -1,12 +1,15 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 import './Banner.scss';
 
-const Banner = ({ ScrollToInfo }) => (
+const Banner = ({ ScrollToInfo }) => {
+  const { t } = useTranslation();
+  return (
   <div className="banner">
-    <h1>У нас есть все!</h1>
-    <h1>И даже больше...</h1>
-    <button onClick={() => ScrollToInfo()}>Подробнее</button>
+    <h1>{t('title1')}</h1>
+    <h1>{t('title2')}</h1>
+    <button onClick={() => ScrollToInfo()}>{t('buttons.more')}</button>
   </div>
-);
+);}
 
 export default Banner;

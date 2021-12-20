@@ -1,4 +1,4 @@
-.header {
+header {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -7,15 +7,19 @@
   background-color: white;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   @media screen and (max-width: 787px) {
-    justify-content: center;
+    justify-content: space-around;
   }
   & > div {
     display: flex;
     align-items: center;
     padding: .2rem 8rem;
     padding-left: 0;
+    @media screen and (max-width: 787px) {
+      padding: 0;
+    }
     & > div {
       position: relative;
+      cursor: pointer;
       & > img {
         width: 2rem;
       }

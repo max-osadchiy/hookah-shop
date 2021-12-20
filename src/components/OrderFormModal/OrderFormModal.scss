@@ -1,0 +1,58 @@
+.modal-form-bask {
+  display: flex;
+  flex-direction: column;
+  padding: 0 5%;
+  margin-bottom: 2rem;
+  width: 90%;
+  & > h2 {
+    text-align: center;
+  }
+  & > div {
+    display: flex;
+    flex-direction: column;
+    & > div {
+      display: flex;
+      flex-direction: column;
+      margin-bottom: 1rem;
+      width: 50%;
+      @media screen and (max-width: 787px) {
+        width: 100%;
+      }
+      & > input {
+        padding: .4rem .5rem;
+        border: 0;
+        outline: none;
+        border-bottom: 1px solid #5E5E5E;
+      }
+      & > p {
+        margin-bottom: 0;
+      }
+    }
+    & > div {
+      & > input:focus {
+        border-bottom: 1px solid black;
+      }
+    }
+  }
+  button {
+    background: transparent;
+    color: black;
+    padding: .8rem 2.6rem;
+    font-size: .8em;
+    text-transform: uppercase;
+    border: 1px solid #333333;
+    border-radius: 3px;
+    margin-top: .8rem;
+    font-weight: bold;
+    transition: 1s;
+    cursor: pointer;
+    width: 12rem;
+    margin: 0 auto;
+    margin-top: 1rem;
+    &:hover {
+      background: #333333;
+      border: 1px solid #333333;
+      color: white;
+    }
+  }
+}

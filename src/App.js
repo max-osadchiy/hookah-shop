@@ -1,18 +1,25 @@
-import './App.scss';
-import {
-  Route,
-  Switch,
-  BrowserRouter as Router
-} from 'react-router-dom';
-import Footer from './components/Footer/Footer';
-import Header from './components/Header/Header';
-import MainPage from './containers/MainPage/MainPage';
-import ItemPage from './containers/ItemPage/ItemPage';
-import { Provider as BasketContextProvider } from './contexts/BasketContext';
+import "./App.scss";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import Footer from "./components/Footer/Footer";
+import Header from "./components/Header/Header";
+import MainPage from "./containers/MainPage/MainPage";
+import ItemPage from "./containers/ItemPage/ItemPage";
+import { StoreProvider } from "./store/storeHOC";
+import { MainStore } from "./store/mainStore";
+import { configure } from "mobx";
 
-const App = () => (
+const stores = {
+  mainStore: new MainStore(),
+};
+
+configure({
+  enforceActions: "never",
+});
+
+const App = () => {
+  return (
     <div className="App">
-      <BasketContextProvider>
+      <StoreProvider store={stores}>
         <Router>
           <Header />
           <Switch>
@@ -21,8 +28,9 @@ const App = () => (
           </Switch>
           <Footer />
         </Router>
-      </BasketContextProvider>
+      </StoreProvider>
     </div>
-);
+  );
+};
 
 export default App;

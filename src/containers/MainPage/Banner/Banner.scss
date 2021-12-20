@@ -1,12 +1,12 @@
 .banner {
-  height: 100vh;
+  height: 60vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: flex-end;
   padding: 0 8rem;
   background: linear-gradient(270deg, #0B0B0B 0%, rgba(81, 81, 81, 0.50) 35.2%, rgba(255, 255, 255, 0) 100%), url('../../../static/img/Banner.jpg');
-  background-position: center;
+  background-position: top;
   background-repeat: no-repeat;
   background-size: cover;
   @media screen and (max-width: 787px) {

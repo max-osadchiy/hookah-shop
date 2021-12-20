@@ -1,13 +1,17 @@
 import React from 'react';
 import './Information.scss';
 import logo_img from '../../../static/img/Logo.svg';
+import { useTranslation } from 'react-i18next';
 
-const Information = ({ refScroll }) => (
-  <div ref={refScroll} className="information">
-    <img src={logo_img} alt="logo"/>
-    <h1>Кто мы?</h1>
-    <p>Купить кальян в Одессе — магазин кальянов “Hookah Store”. Наш подобранный ассортимент товаров оценят, как любители покурить кальян в домашней атмосфере, так и профессиональные кальянщики. Товар представленный в магазине порадует даже самых искушённых покупателей и постоянно расширяется</p>
-  </div>
-);
+const Information = ({ refScroll }) => {
+  const { t } = useTranslation();
+  return (
+    <div ref={refScroll} className="information">
+      <img src={logo_img} alt="logo"/>
+      <h1>{t('information.title')}</h1>
+      <p>{t('information.description')}</p>
+    </div>
+  );
+}
 
 export default Information;
