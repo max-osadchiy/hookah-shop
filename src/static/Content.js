@@ -4,16 +4,20 @@ import item3 from './img/item_4.png';
 import item4 from './img/item_5.png';
 
 export const itemTypes = [
-  'Аксессуары',
-  'Кальяны',
-  'Колбы',
-  'Табак для кальяна',
-  'Трубки',
-  'Уголь',
-  'Чаши',
-  'Щипцы',
-  'Шахты для кальяна',
+  'Accessories',
+  'Hookahs',
+  'Flasks',
+  'Tobacco',
+  'Tubes',
+  'Coal',
+  'Bowls',
+  'Forceps',
+  'HookahShafts',
 ]
+
+export const hookahPhoneNumber = '+380 984 946 268';
+
+export const hookahStore = 'Hookah Store';
 
 export const items = [
   {
@@ -92,33 +96,33 @@ export const items = [
 
 export const filters = [
   {
-    title: 'Все',
+    title: 'All',
   },
   {
-    title: 'Аксессуары',
+    title: 'Accessories',
   },
   {
-    title: 'Кальяны',
+    title: 'Hookahs',
   },
   {
-    title: 'Колбы',
+    title: 'Flasks',
   },
   {
-    title: 'Табак для кальяна',
+    title: 'Tobacco',
   },
   {
-    title: 'Трубки',
+    title: 'Tubes',
   },
   {
-    title: 'Уголь',
+    title: 'Coal',
   },
   {
-    title: 'Чаши',
+    title: 'Bowls',
   },
   {
-    title: 'Щипцы',
+    title: 'Forceps',
   },
   {
-    title: 'Шахты для кальяна',
+    title: 'HookahShafts',
   },
 ]

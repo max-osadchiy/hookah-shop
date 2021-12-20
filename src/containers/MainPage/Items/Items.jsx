@@ -1,12 +1,13 @@
 import { observer } from "mobx-react";
 import React, { useContext, useState, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import Filter from "../../../components/Filter/Filter";
 import {
   sortItems,
   sortItemsHight,
   sortItemsSmaller,
-} from "../../../components/sortItems";
+} from "../../../mixins/sortItems";
 import { items } from '../../../static/Content';
 import { useStore, withStore } from "../../../store/storeHOC";
 import FilterPrice from "./FilterPrice";
@@ -14,77 +15,70 @@ import "./Items.scss";
 
 const Items = () => {
   const { mainStore } = useStore();
+  const { t } = useTranslation();
   const [validIDState, setValidIDState] = useState();
-  const [filter, setFilter] = useState("Все");
-  const [basketBtn, setBasketBtn] = useState("В корзину");
-
-  const sortItems = (array, name) => {
-    if (mainStore.sortItems === "От большой к меньшей цене") {
-      return sortItemsSmaller(array.slice(), name);
-    } else if (mainStore.sortItems === "От меньшей к большой цене") {
-      return sortItemsHight(array.slice(), name);
-    } else {
-      return array;
-    }
-  };
+  const [filter, setFilter] = useState(t('categories.All'));
+  const [basketBtn, setBasketBtn] = useState(t('buttons.inBasket'));
 
   useEffect(() => {
     mainStore.getInfoItems();
   }, [mainStore]);
-  const allFilter =
-    filter === "Все"
-      ? sortItems(items, "price")
-      : sortItems(
-          items.filter(t => t.productType === filter),
-          "price"
-        );
+
+  const sortItems = (array, name) => {
+    switch(mainStore.sortItems) {
+      case t('filters.maxToMin'):
+        return sortItemsSmaller(array.slice(), name);
+      case t('filters.minToMax'):
+        return sortItemsHight(array.slice(), name);
+      default:
+        return array;
+    }
+  };
+
+  const sortedItems =
+    sortItems(
+      filter === t('categories.All') 
+        ? items : items.filter(item => t(`categories.${item.productType}`) === filter), "price");
   
-  const sendBtn = (id, validId) => {
+  const sendBtn = (item, validId) => {
     setValidIDState(validId);
-    mainStore.setBasketItems(id);
-    setBasketBtn("Добавлено");
-    setInterval(() => {
-      setBasketBtn("В корзину");
+    mainStore.setBasketItems(item);
+    setBasketBtn(t('buttons.added'));
+    setTimeout(() => {
+      setBasketBtn(t('buttons.inBasket'));
     }, 3000);
   };
   const isMobile = window.innerWidth < 787;
   return (
     <div className="items">
-      <div style={{ display: "flex", flexDirection: "column" }}>
+      <div>
         <Filter filter={filter} setFilter={setFilter} />
         <FilterPrice />
       </div>
       <div
-        className={allFilter.length ? "items-block" : ""}
+        className={sortedItems.length ? "items-block" : ""}
         style={{
-          width: allFilter.length ? "" : `${isMobile ? "100%" : "80%"}`,
+          width: sortedItems.length ? "" : `${isMobile ? "100%" : "80%"}`,
         }}
       >
-        {!allFilter.length && (
-          <p style={{ textAlign: "center" }}>Нет товара</p>
+        {!sortedItems.length && (
+          <p style={{ textAlign: "center" }}>{t('noItems')}</p>
         )}
-        {allFilter.map((item, id) => (
+        {sortedItems.map((item, id) => (
           <div key={id} className="item-block">
             <Link to={`/item/${item.id}`}>
-              <div
-                style={{
-                  height: "15rem",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
+              <div className="image-block">
+                {/* With rest api */}
                 {/* <img src={`data:image/jpeg;base64,${item.image}`} alt="img" /> */}
                 <img src={item.image} alt="img" />
               </div>
               <div>
                 <h4>{item.title}</h4>
                 <p>{item.price}</p>
-                {/* <p>₴{item.price.toFixed(2)}</p> */}
               </div>
             </Link>
-            <button onClick={() => sendBtn(item.id, id)}>
-              {validIDState === id ? basketBtn : "В корзину"}
+            <button onClick={() => sendBtn(item, id)}>
+              {validIDState === id ? basketBtn : t('buttons.inBasket')}
             </button>
           </div>
         ))}

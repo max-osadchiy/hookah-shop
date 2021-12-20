@@ -1,14 +1,11 @@
 import { makeAutoObservable } from "mobx";
+import { getRandomInt } from "../mixins/getRandomNumber";
 import api from "./api";
 
 export class MainStore {
   constructor() {
     makeAutoObservable(this);
   }
-
-  inputs = {
-    number: '+380 984 946 268',
-  };
   basket_items = [];
   items = [];
   customerInfo = {
@@ -20,6 +17,7 @@ export class MainStore {
     customerPostOffice: '',
     customerCity: '',
   }
+  isLoadingForm = false;
 
   sortItems = '';
 
@@ -28,10 +26,13 @@ export class MainStore {
   onChangeInput = (name, text) => {
     this.customerInfo[name] = text;
   };
+
+  setIsLoading = (bool) => {
+    this.isLoadingForm = bool;
+  };
   
-  setBasketItems = (id) => {
-    this.basket_items.push(id);
-    console.log(this.basket_items);
+  setBasketItems = (item) => {
+    this.basket_items.push(item);
   }
 
   changeItems = (array) => {
@@ -55,23 +56,40 @@ export class MainStore {
   }
 
   orderItems = async () => {
+    this.setIsLoading(true);
+    const {
+      customerFirstname,
+      customerLastname,
+      customerEmail,
+      customerIndex,
+      customerPhone,
+      customerPostOffice,
+      customerCity,
+    } = this.customerInfo;
+
     let body = {
       customer_info: {
-        customer_firstname: this.customerInfo.customerFirstname,
-        customer_lastname: this.customerInfo.customerFirstname,
-        customer_email: this.customerInfo.customerFirstname,
-        customer_index: this.customerInfo.customerFirstname,
-        customer_phone: this.customerInfo.customerFirstname,
-        customer_post_office : this.customerInfo.customerFirstname,
-        customer_city: this.customerInfo.customerCity,
+        customer_firstname: customerFirstname,
+        customer_lastname: customerLastname,
+        customer_email: customerEmail,
+        customer_index: customerIndex,
+        customer_phone: customerPhone,
+        customer_post_office : customerPostOffice,
+        customer_city: customerCity,
       },
       ordered_products: this.basket_items,
     }
-    await api.post('orders/saveOrder/', body).then((response) => {
-      if ([200, 201].includes(response.status)) {
-        this.isSaved = true;
-        return
-      }
-    }).catch((err) => console.log(err));
+    await api.post('orders/saveOrder/', body)
+      .then((response) => {
+        this.setIsLoading(false);
+        if ([200, 201].includes(response.status)) {
+          this.isSaved = true;
+          return
+        }
+      })
+      .catch((err) => {
+        this.setIsLoading(false);
+        // console.log(err);
+      });
   };
 }

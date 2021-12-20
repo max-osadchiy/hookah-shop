@@ -23,13 +23,14 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
-p {
+p, label {
   font-family: 'Raleway';
   color: #5E5E5E;
   letter-spacing: 1px;
 }
 
 .react-responsive-modal-modal {
+  max-width: 600px !important;
   border-radius: 4px;
   width: 75%;
   margin: 10%;

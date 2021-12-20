@@ -6,15 +6,17 @@ import { useStore } from '../../store/storeHOC';
 import './ItemPage.scss';
 import ReactImageZoom from 'react-image-zoom';
 import { items } from '../../static/Content';
+import { useTranslation } from 'react-i18next';
 
 const ItemPage = () => {
   const {mainStore} = useStore();
+  const { t } = useTranslation();
 
   useEffect(() => {
     mainStore.getInfoItems();
   }, [mainStore])
 
-  const [basketBtn, setBasketBtn] = useState('В корзину');
+  const [basketBtn, setBasketBtn] = useState(t('buttons.inBasket'));
   const { id } = useParams();
   const item = items.find(i => i.id === +id);
 
@@ -25,18 +27,22 @@ const ItemPage = () => {
 
   const sendBtn = (id) => {
     mainStore.setBasketItems(id);
-    setBasketBtn('Добавлено');
+    setBasketBtn(t('buttons.added'));
     setTimeout(() => {
-      setBasketBtn('В корзину');
+      setBasketBtn(t('buttons.inBasket'));
     }, 3000);
   }
 
+  const goBack = () => (
+    <div onClick={() => history.goBack()} className="back-block">
+        <img src={back_img} alt="back"/>
+        <h4>{t('buttons.back')}</h4>
+    </div>
+  );
+
   return (
     <div className="item-page">
-      <div onClick={() => history.goBack()} className="back-block">
-        <img src={back_img} alt="back"/>
-        <h4>Назад</h4>
-      </div>
+      {goBack()}
       {item && (
         <div>
           <div className="item-img" style={{height: 250, justifyContent: 'center', alignItems: 'center'}}>

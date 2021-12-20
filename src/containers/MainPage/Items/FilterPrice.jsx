@@ -1,38 +1,32 @@
 import { observer } from 'mobx-react';
 import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useStore } from '../../../store/storeHOC';
-import './FilterPrice.scss';
 
-const FilterPrice = ({ filter, setFilter }) => {
+const FilterPrice = () => {
   const {mainStore} = useStore();
-  const [open, setOpen] = useState(0);
+  const { t } = useTranslation();
 
   const filters = [
     {
-      title: 'От большой к меньшей цене',
-      action: () => {
-        if (mainStore.sortItems === 'От большой к меньшей цене') {
-          mainStore.changeSortItems('')
-        } else {
-          mainStore.changeSortItems('От большой к меньшей цене');
-        }
-      },
+      title: t('filters.maxToMin'),
+      action: () => 
+        mainStore.sortItems === t('filters.maxToMin') 
+          ? mainStore.changeSortItems('') 
+          : mainStore.changeSortItems(t('filters.maxToMin')),
     },
     {
-      title: 'От меньшей к большой цене',
-      action: () => {
-        if (mainStore.sortItems === 'От меньшей к большой цене') {
-          mainStore.changeSortItems('')
-        } else {
-          mainStore.changeSortItems('От меньшей к большой цене');
-        }
-      },
+      title: t('filters.minToMax'),
+      action: () => 
+        mainStore.sortItems === t('filters.minToMax') 
+          ? mainStore.changeSortItems('') 
+          : mainStore.changeSortItems(t('filters.minToMax')),
     },
   ]
 
   return (
     <div className="filter">
-      <h3>Фильтр товаров</h3>
+      <h3>{t('filters.title')}</h3>
       {filters.map((filter, id) => (
         <div key={id}>
           <div
