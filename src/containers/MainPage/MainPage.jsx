@@ -1,6 +1,6 @@
 import { observer } from 'mobx-react';
 import React, { useRef, useEffect } from 'react';
-import { useStore } from '../../store/storeHOC';
+import { useStore, withStore } from '../../store/storeHOC';
 import Banner from './Banner/Banner';
 import Information from './Information/Information';
 import Items from './Items/Items';

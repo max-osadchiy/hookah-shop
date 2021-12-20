@@ -1,5 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal } from 'react-responsive-modal';
+import PhoneInput from 'react-phone-number-input/input';
 import 'react-phone-number-input/style.css';
 import 'react-responsive-modal/styles.css';
 import './OrderFormModal.scss';
@@ -8,25 +9,40 @@ import { observer } from 'mobx-react';
 
 const OrderFormModal = ({ openForm, setOpenForm, setOpen }) => {
   const {mainStore} = useStore();
-  const { 
-    customerFirstname,
-    customerLastname,
-    customerEmail,
-    customerIndex,
-    customerPhone,
-    customerPostOffice,
-    customerCity 
-  } = mainStore.customerInfo;
-
+  const [inputs, setInputs] = useState({
+    name: '',
+    surname: '',
+    email: '',
+    phoneNum: '',
+    city: '',
+    index: '',
+    numPostOffice: ''
+  });
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setInputs(prevState => ({
+        ...prevState,
+        [name]: value,
+    }));
+  };
   useEffect(() => {
     if (mainStore.isSaved) {
       setOpenForm(false);
       setOpen(true);
     }
   }, [mainStore.isSaved])
-
-  const disableList = [customerFirstname, customerLastname, customerEmail, customerIndex, customerPhone, customerPostOffice, customerCity]
-
+  const sendForm = () => {
+    mainStore.onChangeInput(
+      inputs.name,
+      inputs.surname,
+      inputs.email,
+      inputs.phoneNum,
+      inputs.city,
+      inputs.index,
+      inputs.numPostOffice,
+    );
+    mainStore.orderItems();
+  }
   return (
     <Modal open={openForm} onClose={() => setOpenForm(false)} center>
     <div className="modal-form-bask" style={{ justifyContent: 'center' }}>
@@ -34,39 +50,45 @@ const OrderFormModal = ({ openForm, setOpenForm, setOpen }) => {
       <div>
         <label>
           <p>Имя</p>
-          <input name="name" value={customerFirstname} onChange={e => mainStore.onChangeInput('customerFirstname', e.target.value)} type="text" required/>
+          <input name="name" value={inputs.name} onChange={handleChange} type="text" required/>
         </label>
         <label>
           <p>Фамилия</p>
-          <input name="surname" value={customerLastname} onChange={e => mainStore.onChangeInput('customerLastname', e.target.value)} type="text" required/>
+          <input name="surname" value={inputs.surname} onChange={handleChange} type="text" required/>
         </label>
         <label>
           <p>Почта</p>
-          <input name="email" value={customerEmail} onChange={e => mainStore.onChangeInput('customerEmail', e.target.value)} type="email" required/>
+          <input name="email" value={inputs.email} onChange={handleChange} type="email" required/>
         </label>
         <label>
           <p>Номер телефона</p>
           <input
             name="phoneNum"
             type="number"
-            value={customerPhone}
-            onChange={e => mainStore.onChangeInput('customerPhone', e.target.value)}
+            value={inputs.phoneNum}
+            onChange={handleChange}
             required
           />
         </label>
         <label>
           <p>Город</p>
-          <input name="city" value={customerCity} onChange={e => mainStore.onChangeInput('customerCity', e.target.value)} type="text" required/>
+          <input name="city" value={inputs.city} onChange={handleChange} type="text" required/>
         </label>
         <label>
           <p>Индекс</p>
-          <input name="index" value={customerIndex} onChange={e => mainStore.onChangeInput('customerIndex', e.target.value)} type="number" required/>
+          <input name="index" value={inputs.index} onChange={handleChange} type="number" required/>
         </label>
         <label>
           <p>Номер почты</p>
-          <input name="numPostOffice" value={customerPostOffice} onChange={e => mainStore.onChangeInput('customerPostOffice', e.target.value)} type="number" required/>
+          <input name="numPostOffice" value={inputs.numPostOffice} onChange={handleChange} type="number" required/>
         </label>
-        <button disabled={disableList.includes("")} onClick={() => mainStore.orderItems()}>Заказать</button>
+        <button disabled={inputs.name === '' ||
+      inputs.surname === '' ||
+      inputs.email === '' ||
+      inputs.phoneNum === '' ||
+      inputs.city === '' ||
+      inputs.index === '' ||
+      inputs.numPostOffice === ''} onClick={() => sendForm()}>Заказать</button>
       </div>
     </div>
   </Modal>

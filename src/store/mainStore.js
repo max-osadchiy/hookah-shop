@@ -25,8 +25,17 @@ export class MainStore {
 
   isSaved = false;
 
-  onChangeInput = (name, text) => {
-    this.customerInfo[name] = text;
+  onChangeInput = (Firstname, Lastname, Email, Phone, City, Index, PostOffice) => {
+    this.customerInfo = {
+      customerFirstname: Firstname,
+      customerLastname: Lastname,
+      customerEmail: Email,
+      customerPhone: Phone,
+      customerCity: City,
+      customerIndex: Index,
+      customerPostOffice: PostOffice,
+    }
+    console.log('this.customerInfo', this.customerInfo);
   };
   
   setBasketItems = (id) => {
@@ -43,11 +52,10 @@ export class MainStore {
   }
 
   getInfoItems = async () => {
-    await api.get('products/findAll/')
-      .then((response) => {
-        this.changeItems(response.data.items);
-      })
-      .catch((err) => console.log(err));
+    await api.get('products/findAll/').then((response) => {
+      this.changeItems(response.data.items);
+      console.log('products/findAll/', this.items);
+    }).catch((err) => console.log(err));
   };
 
   isSavedClose = () => {
@@ -67,10 +75,11 @@ export class MainStore {
       },
       ordered_products: this.basket_items,
     }
+    console.log(body);
     await api.post('orders/saveOrder/', body).then((response) => {
-      if ([200, 201].includes(response.status)) {
+      console.log(response.data);
+      if (response.status === 200) {
         this.isSaved = true;
-        return
       }
     }).catch((err) => console.log(err));
   };

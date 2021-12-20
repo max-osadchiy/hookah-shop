@@ -9,16 +9,12 @@ import { items } from '../../static/Content';
 
 const ItemPage = () => {
   const {mainStore} = useStore();
-
   useEffect(() => {
     mainStore.getInfoItems();
   }, [mainStore])
-
   const [basketBtn, setBasketBtn] = useState('В корзину');
   const { id } = useParams();
   const item = items.find(i => i.id === +id);
-
-  // For back-end version
   // const item = mainStore.items.find(i => i.id === +id);
 
   const history = useHistory();
@@ -26,7 +22,7 @@ const ItemPage = () => {
   const sendBtn = (id) => {
     mainStore.setBasketItems(id);
     setBasketBtn('Добавлено');
-    setTimeout(() => {
+    setInterval(() => {
       setBasketBtn('В корзину');
     }, 3000);
   }
@@ -41,12 +37,12 @@ const ItemPage = () => {
         <div>
           <div className="item-img" style={{height: 250, justifyContent: 'center', alignItems: 'center'}}>
             <ReactImageZoom zoomWidth={500} img={item.image} />
-            {/* For back-end version */}
-            {/* <ReactImageZoom width={400} height={250} zoomWidth={500} img={`data:image/jpeg;base64,${item.image}`} /> */} 
+            {/* <ReactImageZoom width={400} height={250} zoomWidth={500} img={`data:image/jpeg;base64,${item.image}`} /> */}
           </div>
           <div>
             <h2>{item.title}</h2>
             <h3>{item.price}</h3>
+            {/* <h3>₴{item.price.toFixed(2)}</h3> */}
             <button onClick={() => sendBtn(item.id)}>{basketBtn}</button>
             <p>{item.description}</p>
           </div>
