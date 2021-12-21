@@ -8,7 +8,7 @@ import {
   sortItemsHight,
   sortItemsSmaller,
 } from "../../../mixins/sortItems";
-import { items } from '../../../static/Content';
+import { items } from "../../../static/Content";
 import { useStore, withStore } from "../../../store/storeHOC";
 import FilterPrice from "./FilterPrice";
 import "./Items.scss";
@@ -17,35 +17,37 @@ const Items = () => {
   const { mainStore } = useStore();
   const { t } = useTranslation();
   const [validIDState, setValidIDState] = useState();
-  const [filter, setFilter] = useState(t('categories.All'));
-  const [basketBtn, setBasketBtn] = useState(t('buttons.inBasket'));
+  const [filter, setFilter] = useState(t("categories.All"));
+  const [basketBtn, setBasketBtn] = useState(t("buttons.inBasket"));
 
   useEffect(() => {
     mainStore.getInfoItems();
   }, [mainStore]);
 
   const sortItems = (array, name) => {
-    switch(mainStore.sortItems) {
-      case t('filters.maxToMin'):
+    switch (mainStore.sortItems) {
+      case t("filters.maxToMin"):
         return sortItemsSmaller(array.slice(), name);
-      case t('filters.minToMax'):
+      case t("filters.minToMax"):
         return sortItemsHight(array.slice(), name);
       default:
         return array;
     }
   };
 
-  const sortedItems =
-    sortItems(
-      filter === t('categories.All') 
-        ? items : items.filter(item => t(`categories.${item.productType}`) === filter), "price");
-  
+  const sortedItems = sortItems(
+    filter === t("categories.All")
+      ? items
+      : items.filter(item => t(`categories.${item.productType}`) === filter),
+    "price"
+  );
+
   const sendBtn = (item, validId) => {
     setValidIDState(validId);
     mainStore.setBasketItems(item);
-    setBasketBtn(t('buttons.added'));
+    setBasketBtn(t("buttons.added"));
     setTimeout(() => {
-      setBasketBtn(t('buttons.inBasket'));
+      setBasketBtn(t("buttons.inBasket"));
     }, 3000);
   };
   const isMobile = window.innerWidth < 787;
@@ -62,7 +64,7 @@ const Items = () => {
         }}
       >
         {!sortedItems.length && (
-          <p style={{ textAlign: "center" }}>{t('noItems')}</p>
+          <p style={{ textAlign: "center" }}>{t("noItems")}</p>
         )}
         {sortedItems.map((item, id) => (
           <div key={id} className="item-block">
@@ -78,7 +80,7 @@ const Items = () => {
               </div>
             </Link>
             <button onClick={() => sendBtn(item, id)}>
-              {validIDState === id ? basketBtn : t('buttons.inBasket')}
+              {validIDState === id ? basketBtn : t("buttons.inBasket")}
             </button>
           </div>
         ))}
